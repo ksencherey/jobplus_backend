@@ -1,7 +1,7 @@
 //call express
 const express = require("express");
 const cors = require("cors");
-const cookieSession = require ('cookie-session');
+const cookieSession = require("cookie-session");
 //create app for express
 const app = express();
 
@@ -19,13 +19,16 @@ app.use(
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
+app.use('/uploads', express.static('uploads'));
 
 //routes
 const userRoutes = require("./routes/user.routes");
-const authRoutes = require('./routes/auth.routes');
+const authRoutes = require("./routes/auth.routes");
+const sectorRoutes = require("./routes/sector.routes");
 
 app.use("/api/", userRoutes);
-app.use('/api/', authRoutes);
+app.use("/api/", authRoutes);
+app.use("/api/", sectorRoutes);
 
 //export app
 module.exports = app;
