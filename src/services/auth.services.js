@@ -14,19 +14,30 @@ const login = async (body) => {
   }
 
   //compare password
-  const isMatch = await bcrypt.compare(password, user[0].password);
+  const isMatch = await bcrypt.compare(password, user.rows[0].password);
   if (!isMatch) {
     throw new Error("Username or password incorrect");
   }
 
   //create token
-  const token = jwt.sign({ id: user[0].id }, process.env.JWT_SECRET, {
+  const token = jwt.sign({ id: user.rows[0].id }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
   return token;
 };
 
+// get active user
+const active = async (token) => {
+  //decode token
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+  //get user from db
+  const { rows } = await db.query('SELECT * FROM users WHERE id=$1', [decoded.id]);
+  return rows[0];
+}
+
 module.exports = {
   login,
+  active,
 };

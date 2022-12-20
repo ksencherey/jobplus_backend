@@ -6,14 +6,13 @@ const createUser = async (body) => {
   const { first_name, last_name, email, password, confirm_password } = body;
 
   //check if user already exists
-  const checkUser = await db.query("SELECT * FROM 'users' WHERE email = $1", [
+  const checkUser = await db.query("SELECT * FROM users WHERE email = $1", [
     email,
   ]);
 
   if (checkUser.rows.length > 0) {
     throw new Error("User already exists");
   }
-
   //check if passwords match
   if (password !== confirm_password) {
     throw new Error("Passwords do not match");
