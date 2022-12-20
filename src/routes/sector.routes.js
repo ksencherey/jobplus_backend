@@ -6,5 +6,6 @@ const upload = multer({ dest: "uploads/" });
 router.post("/sectors", upload.single("image"), sectorController.createSector);
 router.get("/sectors", sectorController.getAllSectors);
 router.delete("/sectors/:id", sectorController.deleteSector);
+router.put("/sectors/:id", upload.single("image"), sectorController.editSector);
 
 module.exports = router;
