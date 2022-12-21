@@ -23,7 +23,25 @@ const createProfile = async (body) => {
   return profile.rows[0];
 };
 
+//update profile
+const updateProfile = async (id, body) => {
+  const { job_title, min_salary, job_type, experience, sector_id } = body;
+
+  // check if user profile exists
+  const { rows } = await db.query("SELECT * FROM profiles WHERE id = $1", [id]);
+  if (!rows[0]) {
+    throw new Error("Profile does not exist");
+  }
+
+  const { rows: updatedProfile } = await db.query(
+    "UPDATE profiles SET job_title = $1, min_salary = $2, job_type = $3, experience = $4, sector_id = $5 WHERE id = $6 RETURNING *",
+    [job_title, min_salary, job_type, experience, sector_id, id]
+  );
+  return updatedProfile[0];
+};
+
 // export all the functions
 module.exports = {
   createProfile,
+  updateProfile,
 };

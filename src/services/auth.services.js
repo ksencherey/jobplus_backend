@@ -33,7 +33,18 @@ const active = async (token) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   //get user from db
-  const { rows } = await db.query('SELECT * FROM users WHERE id=$1', [decoded.id]);
+  const { rows } = await db.query(`
+    SELECT 
+    u.id,
+    u.email,
+    u.first_name,
+    u.last_name,
+    json_agg(p.*) AS profile
+    FROM users u
+    JOIN profiles p ON u.id = p.user_id
+    WHERE u.id=$1
+    GROUP BY u.id
+    `, [decoded.id]);
   return rows[0];
 }
 
