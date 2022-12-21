@@ -33,7 +33,8 @@ const active = async (token) => {
   const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
   //get user from db
-  const { rows } = await db.query(`
+  const { rows } = await db.query(
+    `
     SELECT 
     u.id,
     u.email,
@@ -44,9 +45,11 @@ const active = async (token) => {
     JOIN profiles p ON u.id = p.user_id
     WHERE u.id=$1
     GROUP BY u.id
-    `, [decoded.id]);
+    `,
+    [decoded.id]
+  );
   return rows[0];
-}
+};
 
 module.exports = {
   login,
