@@ -28,6 +28,7 @@ const sectorRoutes = require("./routes/sector.routes");
 const profileRoutes = require("./routes/profile.routes");
 const categoryRoutes = require("./routes/category.routes");
 const companyRoutes = require("./routes/company.routes");
+const jobRoutes = require("./routes/job.routes");
 
 app.use("/api/", userRoutes);
 app.use("/api/", authRoutes);
@@ -35,6 +36,7 @@ app.use("/api/", sectorRoutes);
 app.use("/api/", profileRoutes);
 app.use("/api/", categoryRoutes);
 app.use("/api/", companyRoutes);
+app.use("/api/", jobRoutes);
 
 //export app
 module.exports = app;
