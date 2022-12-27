@@ -18,5 +18,10 @@ router.put(
   upload.single("image"),
   sectorController.editSector
 );
+router.get(
+  "/sectors/categories",
+  auth,
+  sectorController.getAllSectorsWithCategories
+);
 
 module.exports = router;
