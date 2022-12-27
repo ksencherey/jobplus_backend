@@ -1,4 +1,5 @@
 const db = require("../config/database");
+const notificationServices = require("./notification.services");
 
 //create a new job
 const createJob = async (body) => {
@@ -25,6 +26,9 @@ const createJob = async (body) => {
       category_id,
     ]
   );
+
+  // send notification to matching profiles as soon as job has been created
+  await notificationServices.notifyProfileMatchingJob(rows[0]);
 
   return rows[0];
 };
